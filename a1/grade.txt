@@ -1,0 +1,382 @@
+Grade: 23.00/50.00
+
+10 Deduction(s):
+
+--------------
+#1: 2.00 points
+Failing test: test_approx_bet_2: 
+        @points=2
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 190, in test_approx_bet_2
+    self.assertListEqual(res, [(('A', 'B'), 2.0), (('A', 'C'), 1.0), (('B', 'C'), 2.0), (('B', 'D'), 6.0), (('D', 'E'), 2.5), (('D', 'F'), 2.0), (('D', 'G'), 2.5), (('E', 'F'), 1.5), (('F', 'G'), 1.5)])
+AssertionError: Lists differ: [(('A[82 chars]), 2.0), (('D', 'F'), 2.0), (('D', 'G'), 2.0),[33 chars]2.0)] != [(('A[82 chars]), 2.5), (('D', 'F'), 2.0), (('D', 'G'), 2.5),[33 chars]1.5)]
+
+First differing element 4:
+(('D', 'E'), 2.0)
+(('D', 'E'), 2.5)
+
+  [(('A', 'B'), 2.0),
+   (('A', 'C'), 1.0),
+   (('B', 'C'), 2.0),
+   (('B', 'D'), 6.0),
+-  (('D', 'E'), 2.0),
+?                 ^
+
++  (('D', 'E'), 2.5),
+?                 ^
+
+   (('D', 'F'), 2.0),
+-  (('D', 'G'), 2.0),
+?                 ^
+
++  (('D', 'G'), 2.5),
+?                 ^
+
+-  (('E', 'F'), 2.0),
+?               ^ ^
+
++  (('E', 'F'), 1.5),
+?               ^ ^
+
+-  (('F', 'G'), 2.0)]
+?               ^ ^
+
++  (('F', 'G'), 1.5)]
+?               ^ ^
+
+
+source:
+    def test_approx_bet_2(self):
+         """
+         @points=2
+         """
+         res = sorted(approximate_betweenness(example_graph(), 2).items())
+         self.assertListEqual(res, [(('A', 'B'), 2.0), (('A', 'C'), 1.0), (('B', 'C'), 2.0), (('B', 'D'), 6.0), (('D', 'E'), 2.5), (('D', 'F'), 2.0), (('D', 'G'), 2.5), (('E', 'F'), 1.5), (('F', 'G'), 1.5)])
+--------------
+
+--------------
+#2: 5.00 points
+Failing test: test_bfs_3: 
+        @points=5
+
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 102, in test_bfs_3
+    [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 3), ('F', 3), ('G', 2)])
+AssertionError: Lists differ: [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 2), ('F', 1), ('G', 2)] != [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 3), ('F', 3), ('G', 2)]
+
+First differing element 4:
+('E', 2)
+('E', 3)
+
+- [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 2), ('F', 1), ('G', 2)]
+?                                                ^         ^
+
++ [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 3), ('F', 3), ('G', 2)]
+?                                                ^         ^
+
+
+source:
+    def test_bfs_3(self):
+         """
+         @points=5
+ 
+         """
+         graph = example_graph2()
+         node2distances, node2num_paths, node2parents = bfs(graph, 'A', max_depth=10)
+         self.assertListEqual(sorted(node2distances.items()),
+                              [('A', 0), ('B', 2), ('C', 1), ('D', 1), ('E', 3), ('F', 4), ('G', 2)])
+         self.assertListEqual(sorted(node2num_paths.items()),
+                              [('A', 1), ('B', 1), ('C', 1), ('D', 1), ('E', 3), ('F', 3), ('G', 2)])
+         res = sorted((node, sorted(parents)) for node, parents in node2parents.items())
+         self.assertListEqual(res,
+                              [('B', ['D']), ('C', ['A']), ('D', ['A']), ('E', ['B', 'G']), ('F', ['E']), ('G', ['C', 'D'])])
+         b = bottom_up(graph, node2distances, node2num_paths, node2parents)
+         self.assertEqual(1.0, round(b[('E', 'F')], 2))
+         self.assertEqual(3.83, round(b[('A', 'D')], 2))
+         self.assertEqual(1.67, round(b[('B', 'D')], 2))
+         self.assertEqual(1.17, round(b[('D', 'G')], 2))
+         self.assertEqual(2.17, round(b[('A', 'C')], 2))
+         self.assertEqual(0.67, round(b[('B', 'E')], 2))
+         self.assertEqual(1.33, round(b[('E', 'G')], 2))
+         self.assertEqual(1.17, round(b[('C', 'G')], 2))
+--------------
+
+--------------
+#3: 1.00 points
+Failing test: test_bfs_n2np_2: 
+        @points=1
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 82, in test_bfs_n2np_2
+    self.assertListEqual(res, [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 2)])
+AssertionError: Lists differ: [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 1)] != [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 2)]
+
+First differing element 4:
+('G', 1)
+('G', 2)
+
+- [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 1)]
+?                                                ^
+
++ [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 2)]
+?                                                ^
+
+
+source:
+    def test_bfs_n2np_2(self):
+         """
+         @points=1
+         """
+         node2distances, node2num_paths, node2parents = bfs(example_graph(), 'E', 2)
+         res = sorted(node2num_paths.items())
+         self.assertListEqual(res, [('B', 1), ('D', 1), ('E', 1), ('F', 1), ('G', 2)])
+--------------
+
+--------------
+#4: 1.00 points
+Failing test: test_bfs_n2p_2: 
+        @points=1
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 90, in test_bfs_n2p_2
+    self.assertListEqual(res, [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['D', 'F'])])
+AssertionError: Lists differ: [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['F'])] != [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['D', 'F'])]
+
+First differing element 3:
+('G', ['F'])
+('G', ['D', 'F'])
+
+- [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['F'])]
++ [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['D', 'F'])]
+?                                                   +++++
+
+
+source:
+    def test_bfs_n2p_2(self):
+         """
+         @points=1
+         """
+         node2distances, node2num_paths, node2parents = bfs(example_graph(), 'E', 2)
+         res = sorted((node, sorted(parents)) for node, parents in node2parents.items())
+         self.assertListEqual(res, [('B', ['D']), ('D', ['E']), ('F', ['E']), ('G', ['D', 'F'])])
+--------------
+
+--------------
+#5: 2.00 points
+Failing test: test_bottom_up_2: 
+        @points=2
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 176, in test_bottom_up_2
+    self.assertListEqual(res, [(('B', 'D'), 1.0), (('D', 'E'), 2.5), (('D', 'G'), 0.5), (('E', 'F'), 1.5), (('F', 'G'), 0.5)])
+AssertionError: Lists differ: [(('B', 'D'), 1), (('D', 'E'), 2), (('E', 'F'), 2), (('F', 'G'), 1)] != [(('B', 'D'), 1.0), (('D', 'E'), 2.5), (('D', 'G'), 0.5)[34 chars]0.5)]
+
+First differing element 1:
+(('D', 'E'), 2)
+(('D', 'E'), 2.5)
+
+Second list contains 1 additional elements.
+First extra element 4:
+(('F', 'G'), 0.5)
+
+- [(('B', 'D'), 1), (('D', 'E'), 2), (('E', 'F'), 2), (('F', 'G'), 1)]
++ [(('B', 'D'), 1.0),
++  (('D', 'E'), 2.5),
++  (('D', 'G'), 0.5),
++  (('E', 'F'), 1.5),
++  (('F', 'G'), 0.5)]
+
+source:
+    def test_bottom_up_2(self):
+         """
+         @points=2
+         """
+         node2distances, node2num_paths, node2parents = bfs(example_graph(), 'E', 2)
+         result = bottom_up('E', node2distances, node2num_paths, node2parents)
+         res = sorted(result.items())
+         self.assertListEqual(res, [(('B', 'D'), 1.0), (('D', 'E'), 2.5), (('D', 'G'), 0.5), (('E', 'F'), 1.5), (('F', 'G'), 0.5)])
+--------------
+
+--------------
+#6: 4.00 points
+Failing test: test_gn: 
+        @points=4
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 208, in test_gn
+    self.assertListEqual(res, ['D', 'E', 'F', 'G'])
+AssertionError: Lists differ: ['B', 'D', 'E', 'F', 'G'] != ['D', 'E', 'F', 'G']
+
+First differing element 0:
+'B'
+'D'
+
+First list contains 1 additional elements.
+First extra element 4:
+'G'
+
+- ['B', 'D', 'E', 'F', 'G']
+?  -----
+
++ ['D', 'E', 'F', 'G']
+
+source:
+    def test_gn(self):
+         """
+         @points=4
+         """
+         components = partition_girvan_newman(example_graph(), 5)
+         components = sorted(components, key=lambda x: sorted(x.nodes())[0])
+         res = sorted(components[0].nodes())
+         self.assertListEqual(res, ['A', 'B', 'C'])
+         res = sorted(components[1].nodes())
+         self.assertListEqual(res, ['D', 'E', 'F', 'G'])
+--------------
+
+--------------
+#7: 3.00 points
+Failing test: test_jaccard: 
+        @points=3
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 235, in test_jaccard
+    self.assertEqual(res, [(('D', 'E'), 0.5), (('D', 'A'), 0.0)])
+AssertionError: Lists differ: [(['D', 'E'], 0.5), (['D', 'G'], 0.3333333333333333)] != [(('D', 'E'), 0.5), (('D', 'A'), 0.0)]
+
+First differing element 0:
+(['D', 'E'], 0.5)
+(('D', 'E'), 0.5)
+
+- [(['D', 'E'], 0.5), (['D', 'G'], 0.3333333333333333)]
++ [(('D', 'E'), 0.5), (('D', 'A'), 0.0)]
+
+source:
+    def test_jaccard(self):
+         """
+         @points=3
+         """
+         g = example_graph()
+         train_graph = make_training_graph(g, 'D', 2)
+         res = jaccard(train_graph, 'D', 2)
+         self.assertEqual(res, [(('D', 'E'), 0.5), (('D', 'A'), 0.0)])
+--------------
+
+--------------
+#8: 2.00 points
+Failing test: test_path_score_1: 
+        @points=2
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 245, in test_path_score_1
+    self.assertListEqual(res, [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25)])
+AssertionError: Lists differ: [(('D', 'B'), 0.5), (('D', 'E'), 0.5), (('D', 'F'), 0.5), (('D', 'G'), 0.5)] != [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25)]
+
+First differing element 0:
+(('D', 'B'), 0.5)
+(('D', 'F'), 0.5)
+
+First list contains 1 additional elements.
+First extra element 3:
+(('D', 'G'), 0.5)
+
+- [(('D', 'B'), 0.5), (('D', 'E'), 0.5), (('D', 'F'), 0.5), (('D', 'G'), 0.5)]
+?          ^                  ^                  ^      ^^^^^^^^^^^^^^^^^^^
+
++ [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25)]
+?          ^                  ^      +            ^      ^
+
+
+source:
+    def test_path_score_1(self):
+         """
+         @points=2
+         """
+         g = example_graph()
+         train_graph = g.copy()
+         train_graph.remove_edge(*('D', 'F'))
+         res = path_score(train_graph, 'D', k=4, beta=.5)
+         self.assertListEqual(res, [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25)])
+--------------
+
+--------------
+#9: 3.00 points
+Failing test: test_path_score_2: 
+        @points=3
+        
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 257, in test_path_score_2
+    self.assertListEqual(res, [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25), (('D', 'H'), 0.25)])
+AssertionError: Lists differ: [(('D', 'B'), 0.5), (('D', 'E'), 0.5), (('D', 'F'), 0.5), (('D', 'G'), 0.5)] != [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25), (('D', 'H'), 0.25)]
+
+First differing element 0:
+(('D', 'B'), 0.5)
+(('D', 'F'), 0.5)
+
+- [(('D', 'B'), 0.5), (('D', 'E'), 0.5), (('D', 'F'), 0.5), (('D', 'G'), 0.5)]
+?          ^                  ^                  ^                  ^
+
++ [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25), (('D', 'H'), 0.25)]
+?          ^                  ^      +            ^      +            ^      +
+
+
+source:
+    def test_path_score_2(self):
+         """
+         @points=3
+         """
+         g = example_graph()
+         g.add_edge('A', 'H')
+         g.add_edge('C', 'H')
+         train_graph = g.copy()
+         train_graph.remove_edge(*('D', 'F'))
+         res = path_score(train_graph, 'D', k=4, beta=.5)
+         self.assertListEqual(res, [(('D', 'F'), 0.5), (('D', 'A'), 0.25), (('D', 'C'), 0.25), (('D', 'H'), 0.25)])
+--------------
+
+--------------
+#10: 4.00 points
+Failing test: test_time: 
+        @points=4
+        
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/networkx/classes/graph.py", line 1059, in neighbors
+    return list(self.adj[n])
+KeyError: 'S'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 267, in test_time
+    clusters = partition_girvan_newman(self.graph, 3)
+networkx.exception.NetworkXError: The node S is not in the graph.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "../assignments-sol/a1/a1_test.py", line 269, in test_time
+    self.assertTrue(False, 'should take less than 30 seconds...')
+AssertionError: False is not true : should take less than 30 seconds...
+
+source:
+    def test_time(self):
+         """
+         @points=4
+         """
+         signal.signal(signal.SIGALRM, handler)
+         signal.alarm(30)
+         start = time.time()
+         try:
+             clusters = partition_girvan_newman(self.graph, 3)
+         except Exception as exc:
+             self.assertTrue(False, 'should take less than 30 seconds...')
+ 
+         signal.alarm(0)
+         self.assertTrue(clusters is not None, 'nothing returned')
+         self.assertTrue(len(clusters) != 0, 'nothing returned')
+         end = time.time()
+         runtime = end - start
+         self.assertTrue(runtime < 30, 'should take less than 30 seconds...')
+--------------
+
